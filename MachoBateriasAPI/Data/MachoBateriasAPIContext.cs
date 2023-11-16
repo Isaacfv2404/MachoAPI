@@ -122,8 +122,6 @@ namespace MachoBateriasAPI.Data
             .Property(s => s.employeeId);
             modelBuilder.Entity<Sale>()
                 .Property(s => s.clientId);
-            modelBuilder.Entity<Sale>()
-                .Property(s => s.productId);
 
 
         }
@@ -137,5 +135,23 @@ namespace MachoBateriasAPI.Data
         public DbSet<MachoBateriasAPI.Models.Sale>? Sale { get; set; }
         public DbSet<MachoBateriasAPI.Models.Supplier>? Supplier { get; set; }
         public DbSet<MachoBateriasAPI.Models.Buys>? Buys { get; set; }
+        public DbSet<MachoBateriasAPI.Models.SaleProduct>? SaleProduct { get; set; }
+
+        //consulta para los productos de cada factura
+        public async Task<List<Product>> GetProductsForSaleAsync(int saleId)
+        {
+            // Utiliza LINQ para obtener los productos asociados a la venta específica
+            var productIdsForSale = await SaleProduct
+                .Where(sp => sp.saleId == saleId)
+                .Select(sp => sp.productId)
+                .ToListAsync();
+
+            // Consulta los productos basados en los Ids obtenidos
+            var productsForSale = await Product
+                .Where(p => productIdsForSale.Contains(p.id))
+                .ToListAsync();
+
+            return productsForSale;
+        }
     }
 }

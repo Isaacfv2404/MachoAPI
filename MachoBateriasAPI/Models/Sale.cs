@@ -14,7 +14,6 @@ namespace MachoBateriasAPI.Models
         public double discount { get; set; }
         public int employeeId { get; set; }
         public int clientId { get; set; }
-        public int productId { get; set; }
 
 
     }
