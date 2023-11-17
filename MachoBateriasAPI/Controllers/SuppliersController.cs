@@ -33,5 +33,22 @@ namespace MachoBateriasAPI.Controllers
             }
             return await _context.Supplier.ToListAsync();
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Supplier>> GetSu(int id)
+        {
+            if (_context.Supplier == null)
+            {
+                return NotFound();
+            }
+            var sup = await _context.Supplier.FindAsync(id);
+
+            if (sup == null)
+            {
+                return NotFound();
+            }
+
+            return sup;
+        }
     }
 }

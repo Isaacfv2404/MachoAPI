@@ -123,6 +123,7 @@ namespace MachoBateriasAPI.Controllers
         }
 
         [HttpPost("login")]
+        [HttpPost("login/{id}")]
         public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
             Console.WriteLine("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAA");
