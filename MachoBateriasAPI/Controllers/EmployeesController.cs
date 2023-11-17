@@ -143,7 +143,7 @@ namespace MachoBateriasAPI.Controllers
         private bool VerifyPassword(string hashedPassword, string inputPassword)
         {
 
-            return false; //BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
+            return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
         }
 
     }
