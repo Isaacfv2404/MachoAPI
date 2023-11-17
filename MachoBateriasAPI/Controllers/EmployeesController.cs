@@ -124,11 +124,11 @@ namespace MachoBateriasAPI.Controllers
 
         // EmployeesController.cs
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] Employee loginModel)
+        public async Task<IActionResult> Login([FromBody] string email, string password)
         {
-            var employee = await _context.Employee.FirstOrDefaultAsync(e => e.email == loginModel.email);
+            var employee = await _context.Employee.FirstOrDefaultAsync(e => e.email == email);
 
-            if (employee == null || !VerifyPassword(employee.password, loginModel.password))
+            if (employee == null || !VerifyPassword(employee.password, password))
             {
                 return Unauthorized(new { message = "Credenciales inválidas" });
             }
