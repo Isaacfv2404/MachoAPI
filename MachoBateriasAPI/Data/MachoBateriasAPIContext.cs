@@ -153,5 +153,8 @@ namespace MachoBateriasAPI.Data
 
             return productsForSale;
         }
+
+        //consulta para los productos de cada factura
+        public DbSet<MachoBateriasAPI.Models.Branch>? Branch { get; set; }
     }
 }
