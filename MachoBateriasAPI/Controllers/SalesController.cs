@@ -87,7 +87,7 @@ namespace MachoBateriasAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostSale(Sale sale)
         {
-            if (_context.Product == null)
+            if (_context.Sale == null)
             {
                 return Problem("Entity set 'MachoBateriasAPIContext.Product'  is null.");
             }
