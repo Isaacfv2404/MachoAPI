@@ -122,29 +122,36 @@ namespace MachoBateriasAPI.Controllers
             return (_context.Employee?.Any(e => e.id == id)).GetValueOrDefault();
         }
 
-        // EmployeesController.cs
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] string email, string password)
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            var employee = await _context.Employee.FirstOrDefaultAsync(e => e.email == email);
+            Console.WriteLine("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            Console.WriteLine(loginModel.Email);
+            var employee = await _context.Employee.FirstOrDefaultAsync(e => e.email == loginModel.Email);
 
-            if (employee == null || !VerifyPassword(employee.password, password))
+            if (employee == null || !VerifyPassword(employee.password, loginModel.Password))
             {
                 return Unauthorized(new { message = "Credenciales inválidas" });
             }
 
             // Guardar la información en la sesión
-            HttpContext.Session.SetInt32("EmployeeId", employee.id);
-            HttpContext.Session.SetString("EmployeeEmail", employee.email);
+            HttpContext.Session.SetInt32("id", employee.id);
+            HttpContext.Session.SetString("email", employee.email);
 
             return Ok(new { message = "Inicio de sesión exitoso" });
         }
 
+        public class LoginModel
+        {
+            public string Email { get; set; }
+            public string Password { get; set; }
+        }
+
         private bool VerifyPassword(string hashedPassword, string inputPassword)
         {
-
             return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
         }
+
 
     }
 }
