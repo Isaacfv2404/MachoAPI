@@ -9,12 +9,11 @@ namespace MachoBateriasAPI.Models
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime date { get; set; }
-        public int amount { get; set; }
-        public double total { get; set; }
         public int supplierId { get; set; }
+        //public Supplier ? supplier { get; set; }
         public int employeeId { get; set; }
-        public int productId { get; set; }
-
+        //public Employee? employee { get; set; }
+        public double total { get; set; }
 
     }
 }

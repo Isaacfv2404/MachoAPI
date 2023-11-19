@@ -99,29 +99,31 @@ namespace MachoBateriasAPI.Data
             modelBuilder.Entity<Buys>()
                 .Property(b => b.date);
             modelBuilder.Entity<Buys>()
-                .Property(b => b.amount);
-            modelBuilder.Entity<Buys>()
-                .Property(b => b.total);
-            modelBuilder.Entity<Buys>()
                 .Property(b => b.supplierId);
             modelBuilder.Entity<Buys>()
                 .Property(b => b.employeeId);
             modelBuilder.Entity<Buys>()
-               .Property(b => b.productId);
+                .Property(b => b.total);
+
+
 
             ///  
             modelBuilder.Entity<Sale>()
                 .Property(s => s.code);
             modelBuilder.Entity<Sale>()
                 .Property(s => s.date);
-            modelBuilder.Entity<Buys>()
-                .Property(b => b.total);
+            modelBuilder.Entity<Sale>()
+                .Property(s => s.employeeId);
+            modelBuilder.Entity<Sale>()
+                .Property(s => s.clientId);
             modelBuilder.Entity<Sale>()
                 .Property(s => s.discount);
             modelBuilder.Entity<Sale>()
-            .Property(s => s.employeeId);
+                .Property(s => s.subTotal);
             modelBuilder.Entity<Sale>()
-                .Property(s => s.clientId);
+                .Property(s => s.total);
+
+
 
 
         }
@@ -156,5 +158,8 @@ namespace MachoBateriasAPI.Data
 
         //consulta para los productos de cada factura
         public DbSet<MachoBateriasAPI.Models.Branch>? Branch { get; set; }
+
+        //consulta para los productos de cada factura
+        public DbSet<MachoBateriasAPI.Models.BuysProduct>? BuysProduct { get; set; }
     }
 }

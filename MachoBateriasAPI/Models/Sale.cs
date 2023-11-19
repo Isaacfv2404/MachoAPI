@@ -10,10 +10,12 @@ namespace MachoBateriasAPI.Models
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime date { get; set; }
-        public double total { get; set; }
-        public double discount { get; set; }
         public int employeeId { get; set; }
         public int clientId { get; set; }
+        public double discount { get; set; }
+        public double subTotal { get; set; }
+        public double total { get; set; }
+
 
 
     }
