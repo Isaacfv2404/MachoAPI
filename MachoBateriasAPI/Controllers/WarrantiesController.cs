@@ -29,7 +29,7 @@ namespace MachoBateriasAPI.Controllers
           {
               return NotFound();
           }
-            return await _context.Warranty.ToListAsync();
+            return await _context.Warranty.Include(w => w.product).Include(w => w.vehicle).ToListAsync();
         }
 
         // GET: api/Warranties/5
