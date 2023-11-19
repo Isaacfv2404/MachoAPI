@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using MachoBateriasAPI.Data;
 using MachoBateriasAPI.Models;
 using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace MachoBateriasAPI.Controllers
 {
@@ -123,11 +127,8 @@ namespace MachoBateriasAPI.Controllers
         }
 
         [HttpPost("login")]
-        [HttpPost("login/{id}")]
         public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            Console.WriteLine("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            Console.WriteLine(loginModel.Email);
             var employee = await _context.Employee.FirstOrDefaultAsync(e => e.email == loginModel.Email);
 
             if (employee == null || !VerifyPassword(employee.password, loginModel.Password))
@@ -135,11 +136,41 @@ namespace MachoBateriasAPI.Controllers
                 return Unauthorized(new { message = "Credenciales inválidas" });
             }
 
-            // Guardar la información en la sesión
-            HttpContext.Session.SetInt32("id", employee.id);
-            HttpContext.Session.SetString("email", employee.email);
+            // Crear un token JWT
+            var token = CreateJwtToken(employee);
 
-            return Ok(new { message = "Inicio de sesión exitoso" });
+            return Ok(new { token = token });
+        }
+
+        private bool VerifyPassword(string hashedPassword, string inputPassword)
+        {
+          
+                // Comprobar si la sal es nula
+                if (string.IsNullOrEmpty(hashedPassword) || hashedPassword != inputPassword)
+                {
+                    Console.WriteLine($"Incorrect password: {hashedPassword}");
+                    Console.WriteLine("La sal es nula o no es válida.");
+                    return false;
+                }
+            return true;
+        }
+
+        private string CreateJwtToken(Employee employee)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("tu-clave-secreta"); // Reemplaza esto con tu clave secreta
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+            new Claim(ClaimTypes.NameIdentifier, employee.id.ToString()),
+            new Claim(ClaimTypes.Email, employee.email)
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         public class LoginModel
@@ -148,11 +179,7 @@ namespace MachoBateriasAPI.Controllers
             public string Password { get; set; }
         }
 
-        private bool VerifyPassword(string hashedPassword, string inputPassword)
-        {
-            return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
-        }
-
+        
 
     }
 }
