@@ -21,8 +21,6 @@ namespace MachoBateriasAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Buys
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Buys>>> GetClient()
         {

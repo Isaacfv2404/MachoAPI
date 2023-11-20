@@ -85,7 +85,7 @@ namespace MachoBateriasAPI.Controllers
 
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> PostSale(Sale sale)
+        public async Task<ActionResult<Sale>> PostSale(Sale sale)
         {
             if (_context.Sale == null)
             {
