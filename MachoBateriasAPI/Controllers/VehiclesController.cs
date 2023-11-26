@@ -96,6 +96,16 @@ namespace MachoBateriasAPI.Controllers
             return CreatedAtAction("GetVehicle", new { id = vehicle.id }, vehicle);
         }
 
+
+
+        [HttpGet("verificarPlaca/{plate}")]
+        public IActionResult VerificarPlaca(string plate)
+        {
+            var existePlaca = _context.Vehicle.Any(v => v.plate == plate);
+
+            return Ok(new { ExistePlaca = existePlaca });
+        }
+
         // DELETE: api/Vehicles/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
