@@ -84,7 +84,7 @@ namespace MachoBateriasAPI.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> Postbuys(Buys buys)
+        public async Task<ActionResult<Buys>> Postbuys(Buys buys)
         {
             if (_context.Buys == null)
             {
@@ -93,7 +93,7 @@ namespace MachoBateriasAPI.Controllers
             _context.Buys.Add(buys);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGuys", new { id = buys.id }, buys);
+            return CreatedAtAction("GetBuys", new { id = buys.id }, buys);
         }
 
         // DELETE: api/Products/5

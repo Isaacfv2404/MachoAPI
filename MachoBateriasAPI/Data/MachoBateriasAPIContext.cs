@@ -161,5 +161,21 @@ namespace MachoBateriasAPI.Data
 
         //consulta para los productos de cada factura
         public DbSet<MachoBateriasAPI.Models.BuysProduct>? BuysProduct { get; set; }
+
+        //consulta para los productos de cada factura
+        public async Task<List<Product>> GetProductsForBuysAsync(int buysId)
+        {
+            var productIdsForBuys = await BuysProduct
+                .Where(sp => sp.buysId == buysId)
+                .Select(sp => sp.productId)
+                .ToListAsync();
+
+            // Consulta los productos basados en los Ids obtenidos
+            var productsForBuys = await Product
+                .Where(p => productIdsForBuys.Contains(p.id))
+                .ToListAsync();
+
+            return productsForBuys;
+        }
     }
 }

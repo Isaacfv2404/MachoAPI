@@ -120,5 +120,28 @@ namespace MachoBateriasAPI.Controllers
         {
             return (_context.BuysProduct?.Any(e => e.id == id)).GetValueOrDefault();
         }
+
+        //////////////////consultas
+        [HttpGet("{id}/products")]
+        public async Task<ActionResult<List<Product>>> GetProductsForBuys(int id)
+        {
+            Console.WriteLine("IDDD HOLAAA");
+            try
+            {
+                // Llama al método del servicio que obtiene los productos para la venta específica
+                var productsForBuys = await _context.GetProductsForBuysAsync(id);
+
+                if (productsForBuys == null || productsForBuys.Count == 0)
+                {
+                    return NotFound("No se encontraron productos para la compra especificada.");
+                }
+
+                return Ok(productsForBuys);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+            }
+        }
     }
 }

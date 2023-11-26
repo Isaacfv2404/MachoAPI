@@ -59,9 +59,7 @@ namespace MachoBateriasAPI.Controllers
             {
                 return BadRequest();
             }
-
             _context.Entry(sale).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -77,7 +75,6 @@ namespace MachoBateriasAPI.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
 
